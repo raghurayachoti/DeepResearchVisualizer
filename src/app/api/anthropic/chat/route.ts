@@ -1,10 +1,11 @@
 import { anthropic } from "@ai-sdk/anthropic";
 import { convertToCoreMessages, streamText } from "ai";
 
-export const runtime = "edge";
+if (!process.env.ANTHROPIC_API_KEY) {
+  throw new Error("Missing ANTHROPIC_API_KEY environment variable");
+}
 
-// Set the API key in the environment
-process.env.ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+export const runtime = "edge";
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
